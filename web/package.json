@@ -6,8 +6,9 @@
   "description": "PWA local-first de finanzas personales",
   "scripts": {
     "dev": "vite",
+    "dev:pwa": "vite --mode pwa",
     "build": "tsc --noEmit && vite build",
-    "preview": "vite preview",
+    "preview": "vite preview --host",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",

@@ -142,21 +142,51 @@ datos de ejemplo y entra sin pedir nada.
 
 Para probarla desde el celular en la misma red Wi-Fi, el servidor de
 desarrollo ya escucha en todas las interfaces: entra a
-`http://<ip-del-equipo>:5173`.
+`http://<ip-del-equipo>:5173`. Eso sirve para ver la interfaz, pero **no
+para instalarla**: ver más abajo.
 
 ### Comandos
 
 ```bash
-npm run dev        # servidor de desarrollo
+npm run dev        # servidor de desarrollo (sin PWA)
+npm run dev:pwa    # igual, pero con manifest y service worker activos
 npm test           # pruebas del dominio y de los repositorios
 npm run build      # compilación de producción, con service worker
-npm run preview    # sirve la compilación (es donde se prueba la PWA)
+npm run preview    # sirve la compilación
 npm run iconos     # regenera los íconos del manifest
 ```
 
-El service worker está desactivado en desarrollo a propósito: estorba
-más de lo que ayuda mientras se escribe código. Se prueba con
-`npm run build && npm run preview`.
+### Probar la instalación
+
+El service worker está apagado en `npm run dev` a propósito: con HMR
+activo sirve módulos rancios y estorba más de lo que ayuda.
+
+El efecto secundario, que no es obvio, es que con la PWA apagada tampoco
+se inyecta el `<link rel="manifest">`. Sin manifest el navegador no ve una
+app instalable, así que su menú solo ofrece *crear un acceso directo* —
+y un acceso directo abre una pestaña normal, no la app. Si alguna vez
+"instalas" la app y se abre el navegador, es esto.
+
+Para probar la instalación usa **`npm run dev:pwa`**, que enciende
+manifest y service worker sin tener que compilar. El menú del navegador
+debe decir *Instalar*, y el botón de Ajustes → Instalar aparece solo
+cuando el navegador confirma que la app es instalable.
+
+**Desde el celular hace falta HTTPS.** Un service worker exige contexto
+seguro, y solo `localhost` y HTTPS cuentan: `http://192.168.x.x:5173`
+nunca va a ofrecer instalar, por muy correcto que esté el manifest. Para
+instalarla en el teléfono hay que desplegarla.
+
+### Despliegue
+
+`render.yaml` en la raíz describe el sitio estático en Render: raíz en
+`web/`, `npm ci && npm run build`, publicación de `dist/`, reescritura de
+cualquier ruta al `index.html` —lo que necesita el atajo `/registrar` del
+manifest— y `Cache-Control: no-cache` sobre `sw.js`, para que un service
+worker viejo no deje la app clavada en una versión antigua.
+
+En Render: **New → Blueprint**, se conecta el repositorio y se lee ese
+archivo. Cada push a `develop` vuelve a desplegar.
 
 ---
 
