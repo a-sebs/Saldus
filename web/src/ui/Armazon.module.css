@@ -1,0 +1,90 @@
+.armazon {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.contenido {
+  flex: 1;
+  /* Espacio para que la barra fija no tape la última fila de la lista. */
+  padding-bottom: calc(var(--alto-nav) + var(--esp-4) + env(safe-area-inset-bottom, 0px));
+}
+
+.conAccion {
+  padding-bottom: calc(
+    var(--alto-nav) + var(--tactil-min) + var(--esp-7) + env(safe-area-inset-bottom, 0px)
+  );
+}
+
+/* ---------------------------------------------------------------------
+   Acción primaria. Flota sobre el contenido en el tercio inferior, al
+   alcance del pulgar. No es un círculo: un botón ancho con su texto
+   dice qué hace, y el círculo con un signo más es el reflejo de
+   plantilla que este sistema evita.
+   --------------------------------------------------------------------- */
+.barraAccion {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: calc(var(--alto-nav) + env(safe-area-inset-bottom, 0px));
+  z-index: 20;
+  /* El relleno superior es generoso a propósito: es la altura sobre la
+     que se desvanece la fila que pasa por debajo. Con poco espacio, el
+     degradado corta el texto por la mitad y parece un fallo de pintado
+     en vez de una transición. */
+  padding: var(--esp-6) 0 var(--esp-3);
+
+  background: linear-gradient(
+    to top,
+    var(--fondo) 0%,
+    var(--fondo) 60%,
+    transparent 100%
+  );
+}
+
+/* ---------------------------------------------------------------------
+   Navegación inferior
+   --------------------------------------------------------------------- */
+.nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 30;
+
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+
+  background: var(--fondo);
+  border-top: 1px solid var(--regla);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.destino {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+
+  /* 44px mínimo de área táctil, aunque el contenido visible sea menor. */
+  min-height: var(--alto-nav);
+  padding: var(--esp-2) var(--esp-1);
+
+  color: var(--tinta-suave);
+  text-decoration: none;
+  transition: color var(--transicion);
+}
+
+.destino:active {
+  background: var(--superficie);
+}
+
+.activo {
+  color: var(--tinta);
+}
+
+.etiquetaDestino {
+  font-size: var(--texto-micro);
+  line-height: 1;
+}

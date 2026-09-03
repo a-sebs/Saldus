@@ -1,0 +1,63 @@
+.monto {
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  white-space: nowrap;
+  color: var(--tinta);
+}
+
+/*
+  El signo ocupa su propia celda de ancho fijo. Esta es la línea que
+  hace que la columna de montos quede recta cuando hay gastos (con
+  menos), ingresos (con más) y transferencias (sin nada) mezclados.
+*/
+.signo {
+  display: inline-block;
+  width: 0.7ch;
+  margin-right: 0.1ch;
+  text-align: right;
+}
+
+.moneda {
+  margin-right: 0.15ch;
+  color: var(--tinta-suave);
+  font-weight: var(--peso-normal);
+}
+
+/* --- Énfasis: es lo que separa ingreso de gasto, en vez del color --- */
+
+.normal {
+  font-weight: var(--peso-normal);
+}
+
+.fuerte {
+  font-weight: var(--peso-fuerte);
+}
+
+/* La transferencia se apaga: no es ni ingreso ni gasto. */
+.suave {
+  color: var(--tinta-suave);
+  font-weight: var(--peso-normal);
+}
+
+/* --- Tamaños: los mismos cinco del sistema, sin inventar ninguno --- */
+
+.menor {
+  font-size: var(--texto-menor);
+}
+
+.cuerpo {
+  font-size: var(--texto-cuerpo);
+}
+
+.titulo {
+  font-size: var(--texto-titulo);
+  font-weight: var(--peso-medio);
+}
+
+.gigante {
+  font-size: var(--texto-cifra);
+  font-weight: var(--peso-medio);
+  line-height: var(--interlinea-apretada);
+  letter-spacing: -0.02em;
+}

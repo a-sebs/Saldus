@@ -52,14 +52,18 @@ export async function guardarTransaccion(
 ): Promise<Guardado> {
   const id = entrada.id ?? nuevoId()
 
+  // Dexie solo tiene sobrecargas hasta cinco tablas sueltas; a partir de
+  // ahí se pasan en un arreglo.
   return base.transaction(
     'rw',
-    base.transacciones,
-    base.cuentas,
-    base.categorias,
-    base.etiquetas,
-    base.transaccion_etiqueta,
-    base.outbox,
+    [
+      base.transacciones,
+      base.cuentas,
+      base.categorias,
+      base.etiquetas,
+      base.transaccion_etiqueta,
+      base.outbox,
+    ],
     async () => {
       const refs = await referencias(base)
       const previa = entrada.id ? await base.transacciones.get(entrada.id) : undefined

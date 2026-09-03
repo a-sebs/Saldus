@@ -5,7 +5,7 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "jsx": "react-jsx",
-    "types": ["vite/client", "vite-plugin-pwa/client"],
+    "types": ["vite/client", "vite-plugin-pwa/client", "vite-plugin-pwa/react"],
 
     /* La app no compila con tsc: la compila Vite. tsc solo verifica. */
     "noEmit": true,
@@ -24,9 +24,10 @@
     "exactOptionalPropertyTypes": false,
     "forceConsistentCasingInFileNames": true,
 
-    "baseUrl": ".",
+    /* TypeScript 7 quitó baseUrl: los destinos van relativos al propio
+       tsconfig. El mismo alias está declarado en vite.config.ts. */
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"]
     }
   },
   "include": ["src", "vite.config.ts"]

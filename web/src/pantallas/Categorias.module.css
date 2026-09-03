@@ -1,0 +1,127 @@
+.seccion {
+  max-width: var(--ancho-max);
+  margin-inline: auto;
+  padding: var(--esp-2) var(--esp-4) var(--esp-4);
+}
+
+.arbol {
+  max-width: var(--ancho-max);
+  margin-inline: auto;
+}
+
+.fila {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--esp-3);
+  width: 100%;
+  min-height: var(--tactil-min);
+  padding: var(--esp-3) var(--esp-4);
+  text-align: left;
+  border-bottom: 1px solid var(--regla);
+  border-radius: var(--radio-0);
+}
+
+.fila:active {
+  background: var(--superficie);
+}
+
+/* La indentación es toda la señal de jerarquía que hace falta. */
+.filaHija {
+  padding-left: var(--esp-6);
+}
+
+.filaHija .nombre {
+  color: var(--tinta-suave);
+}
+
+.filaEtiqueta {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-3);
+  padding: var(--esp-2) var(--esp-4);
+  border-bottom: 1px solid var(--regla);
+}
+
+.nombre {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--texto-cuerpo);
+  color: var(--tinta);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.conteo {
+  font-size: var(--texto-menor);
+  color: var(--tinta-apagada);
+  font-variant-numeric: tabular-nums;
+}
+
+.acciones {
+  max-width: var(--ancho-max);
+  margin-inline: auto;
+  padding: var(--esp-4);
+}
+
+.subtitulo {
+  max-width: var(--ancho-max);
+  margin-inline: auto;
+  padding: var(--esp-6) var(--esp-4) var(--esp-1);
+  font-size: var(--texto-cuerpo);
+  font-weight: var(--peso-fuerte);
+}
+
+.explicacion {
+  max-width: var(--ancho-max);
+  margin-inline: auto;
+  padding: 0 var(--esp-4) var(--esp-3);
+  font-size: var(--texto-menor);
+  color: var(--tinta-suave);
+}
+
+.nuevaEtiqueta {
+  display: flex;
+  gap: var(--esp-2);
+  max-width: var(--ancho-max);
+  margin-inline: auto;
+  padding: var(--esp-4);
+}
+
+.nuevaEtiqueta > :first-child {
+  flex: 1;
+}
+
+.campoHoja {
+  padding: var(--esp-3) 0;
+}
+
+.accionesHoja {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2);
+  padding-top: var(--esp-4);
+}
+
+.ayuda {
+  display: block;
+  margin-top: var(--esp-2);
+  font-size: var(--texto-menor);
+  color: var(--tinta-suave);
+}
+
+.confirmacion {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3);
+  padding: var(--esp-3);
+  background: var(--superficie);
+  border-radius: var(--radio-1);
+}
+
+.textoConfirmacion {
+  font-size: var(--texto-menor);
+  color: var(--tinta);
+  line-height: var(--interlinea);
+}

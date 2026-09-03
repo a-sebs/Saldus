@@ -1,0 +1,25 @@
+.lista {
+  max-width: var(--ancho-max);
+  margin-inline: auto;
+}
+
+/*
+  La cabecera de día es el equivalente de la fecha escrita en el margen
+  del libro: fondo hundido, sin mayúsculas ni tracking, y el subtotal
+  alineado en la misma columna que los montos de las filas.
+*/
+.dia {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--esp-3);
+
+  padding: var(--esp-2) var(--esp-4);
+  background: var(--superficie);
+  border-bottom: 1px solid var(--regla);
+}
+
+.fecha {
+  font-size: var(--texto-menor);
+  color: var(--tinta-suave);
+}

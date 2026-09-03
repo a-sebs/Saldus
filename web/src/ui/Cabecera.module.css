@@ -1,0 +1,51 @@
+.cabecera {
+  padding: calc(env(safe-area-inset-top, 0px) + var(--esp-4)) var(--esp-4)
+    var(--esp-3);
+  width: 100%;
+  max-width: var(--ancho-max);
+  margin-inline: auto;
+}
+
+.fila {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-2);
+  min-height: var(--tactil-min);
+}
+
+.titulo {
+  flex: 1;
+  font-size: var(--texto-titulo);
+  font-weight: var(--peso-fuerte);
+  line-height: var(--interlinea-apretada);
+  /* Un nombre de cuenta largo se corta con puntos, no rompe la fila. */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.volver {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--tactil-min);
+  height: var(--tactil-min);
+  margin-left: calc(var(--esp-3) * -1);
+  color: var(--tinta);
+  border-radius: var(--radio-1);
+}
+
+.volver:active {
+  background: var(--superficie);
+}
+
+.derecha {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: var(--esp-2);
+}
+
+.resumen {
+  margin-top: var(--esp-2);
+}

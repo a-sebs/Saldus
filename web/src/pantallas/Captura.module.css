@@ -1,0 +1,151 @@
+.seccion {
+  max-width: var(--ancho-max);
+  margin-inline: auto;
+  padding: var(--esp-3) var(--esp-4);
+}
+
+/* ---------------------------------------------------------------------
+   El monto es el elemento más grande de la pantalla, y con diferencia.
+   Todo lo demás son decisiones de un toque; esto es lo único que hay
+   que teclear.
+   --------------------------------------------------------------------- */
+.zonaMonto {
+  max-width: var(--ancho-max);
+  margin-inline: auto;
+  padding: var(--esp-5) var(--esp-4) var(--esp-4);
+}
+
+.campoMonto {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: var(--esp-2);
+  border-bottom: 2px solid var(--regla);
+  padding-bottom: var(--esp-2);
+}
+
+.campoMonto:focus-within {
+  border-bottom-color: var(--acento);
+}
+
+.simbolo {
+  font-size: var(--texto-titulo);
+  color: var(--tinta-suave);
+}
+
+.entradaMonto {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--texto-cifra);
+  font-weight: var(--peso-medio);
+  line-height: var(--interlinea-apretada);
+  letter-spacing: -0.02em;
+  text-align: left;
+  color: var(--tinta);
+  background: none;
+  border: none;
+
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+
+.entradaMonto::placeholder {
+  color: var(--tinta-apagada);
+}
+
+.entradaMonto:focus-visible {
+  outline: none;
+}
+
+.sugerencias {
+  margin-top: var(--esp-4);
+}
+
+/* ---------------------------------------------------------------------
+   Segmentado de tipo
+   --------------------------------------------------------------------- */
+.segmentado {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  padding: 2px;
+  background: var(--superficie);
+  border-radius: var(--radio-2);
+}
+
+.segmento {
+  min-height: 40px;
+  padding: var(--esp-2);
+  font-size: var(--texto-menor);
+  color: var(--tinta-suave);
+  border-radius: calc(var(--radio-2) - 2px);
+}
+
+.segmentoActivo {
+  background: var(--fondo);
+  color: var(--tinta);
+  font-weight: var(--peso-medio);
+}
+
+/* ---------------------------------------------------------------------
+   Fecha
+   --------------------------------------------------------------------- */
+.fechaLibre {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tactil-min);
+  padding: var(--esp-2) var(--esp-3);
+  font-size: var(--texto-menor);
+  color: var(--tinta-suave);
+  background: none;
+  border: 1px solid var(--regla);
+  border-radius: var(--radio-1);
+  cursor: pointer;
+}
+
+/* El control nativo va encima y transparente: se conserva el selector
+   de fecha del sistema, que es el mejor que hay en un teléfono, sin
+   heredar su aspecto. */
+.entradaFecha {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  /* 16px aunque no se vea: iOS mira el tamaño real al enfocar. */
+  font-size: var(--texto-cuerpo);
+}
+
+/* ---------------------------------------------------------------------
+   Pie
+   --------------------------------------------------------------------- */
+/*
+  El botón de guardar queda pegado al borde inferior mientras el
+  formulario se desplaza por debajo. Sin esto, el objetivo de dos toques
+  se rompe: en una pantalla de 390×844 el formulario mide casi el doble
+  y habría que desplazarse para llegar a guardar.
+*/
+.pie {
+  position: sticky;
+  bottom: calc(var(--alto-nav) + env(safe-area-inset-bottom, 0px));
+  z-index: 15;
+
+  max-width: var(--ancho-max);
+  margin-inline: auto;
+  padding: var(--esp-3) var(--esp-4) var(--esp-4);
+
+  background: linear-gradient(
+    to top,
+    var(--fondo) 0%,
+    var(--fondo) 70%,
+    transparent 100%
+  );
+}
+
+.explicacion {
+  font-size: var(--texto-menor);
+  color: var(--tinta-suave);
+  margin-bottom: var(--esp-4);
+  max-width: 40ch;
+}

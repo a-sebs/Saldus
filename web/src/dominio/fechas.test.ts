@@ -5,6 +5,7 @@ import {
   diasEntre,
   esFechaValida,
   fechaCorta,
+  fechaLarga,
   fechaRelativa,
   hoy,
   mismoMes,
@@ -92,8 +93,17 @@ describe('presentación', () => {
   it('formatea en español sin arrastrar la zona horaria del equipo', () => {
     // Si se construyera el Date sin UTC, en Ecuador saldría el día 1.
     expect(fechaCorta('2026-09-02')).toContain('2')
-    expect(nombreMes('2026-09-02')).toContain('septiembre')
+    expect(nombreMes('2026-09-02')).toContain('eptiembre')
     expect(nombreMes('2026-09-02')).toContain('2026')
+  })
+
+  it('pone mayúscula solo en la primera letra', () => {
+    // `text-transform: capitalize` habría producido "Septiembre De
+    // 2026", que en español está mal.
+    expect(nombreMes('2026-09-02')).toMatch(/^Septiembre/)
+    expect(nombreMes('2026-09-02')).not.toMatch(/ De /)
+    expect(fechaLarga('2026-09-02')).toMatch(/^Miércoles/)
+    expect(fechaLarga('2026-09-02')).toContain('de septiembre')
   })
 
   it('usa lenguaje llano para hoy y ayer', () => {

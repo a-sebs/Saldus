@@ -1,0 +1,66 @@
+/*
+  Sin tarjeta, sin radio y sin sombra: la fila se apoya en el papel y la
+  separa del resto una regla de un píxel, como el rayado de un libro
+  mayor. Eso es también lo que mantiene la columna de montos recta de
+  borde a borde.
+*/
+.fila {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: var(--esp-3);
+  row-gap: 1px;
+  align-items: baseline;
+
+  width: 100%;
+  /* 44px de área táctil incluso cuando el contenido mide menos. */
+  min-height: var(--tactil-min);
+  padding: var(--esp-3) var(--esp-4);
+  text-align: left;
+
+  border-bottom: 1px solid var(--regla);
+  border-radius: var(--radio-0);
+  background: none;
+}
+
+.fila:active {
+  background: var(--superficie);
+}
+
+.concepto {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-2);
+  min-width: 0;
+  font-size: var(--texto-cuerpo);
+  color: var(--tinta);
+  /* Un nombre largo se corta con puntos suspensivos; nunca desborda ni
+     empuja la columna de dinero. */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.contexto,
+.detalle {
+  font-size: var(--texto-menor);
+  color: var(--tinta-suave);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* La cuenta se alinea a la derecha, bajo la columna de dinero: dos
+   columnas de verdad en vez de una cadena de puntos medios. */
+.detalle {
+  text-align: right;
+}
+
+/* Marca de "todavía no enviado". Discreta a propósito: no sincronizar
+   aún no es un problema, es el funcionamiento normal de la app. */
+.pendiente {
+  flex: none;
+  width: 5px;
+  height: 5px;
+  border-radius: var(--radio-lleno);
+  background: var(--regla-fuerte);
+}

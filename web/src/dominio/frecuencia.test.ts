@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import {
+  cuentaMasUsada,
   hijaMasUsada,
   hijasPorFrecuencia,
   montosFrecuentes,
@@ -162,6 +163,34 @@ describe('montosFrecuentes', () => {
 
   it('no sugiere nada sin historial', () => {
     expect(montosFrecuentes([], 'GASTO', 4, AHORA)).toEqual([])
+  })
+})
+
+describe('cuentaMasUsada', () => {
+  it('devuelve con la que más se ha movido dinero hace poco', () => {
+    const t = [
+      f.transaccion({ id_cuenta: 'cta-efectivo', fecha: '2026-09-02' }),
+      f.transaccion({ id_cuenta: 'cta-efectivo', fecha: '2026-09-01' }),
+      f.transaccion({ id_cuenta: 'cta-banco', fecha: '2026-08-10' }),
+    ]
+    expect(cuentaMasUsada(t, AHORA)).toBe('cta-efectivo')
+  })
+
+  it('no cuenta las transferencias: no dicen dónde se gasta', () => {
+    const t = [
+      f.transaccion({
+        id_cuenta: 'cta-banco',
+        tipo: 'TRANSFERENCIA',
+        id_categoria: null,
+        id_cuenta_destino: 'cta-efectivo',
+        fecha: '2026-09-02',
+      }),
+    ]
+    expect(cuentaMasUsada(t, AHORA)).toBeNull()
+  })
+
+  it('sin historial no inventa una preselección', () => {
+    expect(cuentaMasUsada([], AHORA)).toBeNull()
   })
 })
 

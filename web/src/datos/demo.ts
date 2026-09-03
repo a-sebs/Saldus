@@ -3,9 +3,9 @@
  *
  * Es lo primero que ve alguien que abre esto desde mi portafolio, así
  * que los datos tienen que resistir una mirada: almuerzos de tres
- * dólares entre semana, pasajes de treinta y cinco centavos, el arriendo
- * el día 3, el sueldo a fin de mes y la tarjeta pagada con una
- * transferencia. Un generador aleatorio sin forma se nota enseguida.
+ * dólares entre semana, pasajes de setenta centavos, el arriendo el día
+ * 3, el sueldo a fin de mes y la tarjeta pagada con una transferencia.
+ * Un generador aleatorio sin forma se nota enseguida.
  *
  * El generador es **determinista** (PRNG con semilla fija): la misma
  * fecha produce siempre el mismo dataset. Eso es lo que hace posible el
@@ -68,6 +68,12 @@ export async function sembrarDemo(
 
   /* --- Transacciones ----------------------------------------------- */
   const trx: Transaccion[] = []
+
+  /**
+   * La descripción va en `null` cuando solo repetiría el nombre de la
+   * categoría: nadie escribe "Almuerzo" en el detalle de un almuerzo, y
+   * la fila de la lista quedaría diciendo la misma palabra dos veces.
+   */
   const nueva = (
     tipo: TipoTransaccion,
     fecha: FechaContable,
@@ -110,12 +116,12 @@ export async function sembrarDemo(
     const dia = (n: number): FechaContable =>
       sumarDias(inicioMes, Math.min(n, ultimoDia) - 1)
 
-    // Sueldo el último día hábil aproximado.
+    // Sueldo el último día del mes.
     if (dia(ultimoDia) <= hoyStr) {
       nueva('INGRESO', dia(ultimoDia), 115000, banco.id, cat('Sueldo'), 'Sueldo del mes')
     }
     if (dia(3) <= hoyStr) {
-      nueva('GASTO', dia(3), 32000, banco.id, cat('Arriendo'), 'Arriendo')
+      nueva('GASTO', dia(3), 32000, banco.id, cat('Arriendo'), null)
     }
     if (dia(8) <= hoyStr) {
       nueva('GASTO', dia(8), 2700, banco.id, cat('Internet'), 'Internet fibra')
@@ -154,18 +160,18 @@ export async function sembrarDemo(
       const laborable = diaSemana >= 1 && diaSemana <= 5
 
       if (laborable) {
-        nueva('GASTO', fecha, entre(300, 450), efectivo.id, cat('Almuerzo'), 'Almuerzo')
+        nueva('GASTO', fecha, entre(300, 450), efectivo.id, cat('Almuerzo'), null)
         // Dos pasajes de bus: el gasto hormiga por excelencia.
         nueva('GASTO', fecha, 70, efectivo.id, cat('Bus'), 'Pasajes')
         if (azar() < 0.45) {
-          nueva('GASTO', fecha, entre(100, 275), efectivo.id, cat('Café y snacks'), 'Café')
+          nueva('GASTO', fecha, entre(100, 275), efectivo.id, cat('Café y snacks'), null)
         }
         if (azar() < 0.12) {
-          nueva('GASTO', fecha, entre(250, 600), efectivo.id, cat('Taxi'), 'Taxi')
+          nueva('GASTO', fecha, entre(250, 600), efectivo.id, cat('Taxi'), null)
         }
       } else {
         if (azar() < 0.7) {
-          nueva('GASTO', fecha, entre(1200, 3800), visa.id, cat('Salidas'), 'Salida')
+          nueva('GASTO', fecha, entre(1200, 3800), visa.id, cat('Salidas'), null)
         }
         if (azar() < 0.3) {
           nueva('GASTO', fecha, entre(500, 1500), efectivo.id, cat('Restaurantes'), null)
@@ -174,18 +180,18 @@ export async function sembrarDemo(
 
       // Supermercado los sábados.
       if (diaSemana === 6 && azar() < 0.85) {
-        nueva('GASTO', fecha, entre(3500, 7200), visa.id, cat('Supermercado'), 'Supermercado')
+        nueva('GASTO', fecha, entre(3500, 7200), visa.id, cat('Supermercado'), null)
       }
 
       // Ocasionales
       if (azar() < 0.05) {
-        nueva('GASTO', fecha, entre(450, 2800), efectivo.id, cat('Farmacia'), 'Farmacia')
+        nueva('GASTO', fecha, entre(450, 2800), efectivo.id, cat('Farmacia'), null)
       }
       if (azar() < 0.03) {
         nueva('GASTO', fecha, entre(1800, 6500), visa.id, cat('Ropa'), null)
       }
       if (azar() < 0.02) {
-        nueva('GASTO', fecha, entre(1200, 4000), efectivo.id, cat('Regalos'), 'Regalo')
+        nueva('GASTO', fecha, entre(1200, 4000), efectivo.id, cat('Regalos'), null)
       }
       if (azar() < 0.04) {
         nueva('INGRESO', fecha, entre(4000, 25000), banco.id, cat('Trabajos extra'), 'Trabajo extra')

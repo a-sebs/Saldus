@@ -135,6 +135,44 @@ export function hijasPorFrecuencia(
 }
 
 /**
+ * La cuenta con la que más se ha movido dinero últimamente.
+ *
+ * Es la reserva cuando todavía no hay "última cuenta usada": tras
+ * importar un CSV o al abrir el demo, la primera cuenta por orden
+ * alfabético no tiene por qué ser la que uno usa, y preseleccionar la
+ * equivocada cuesta un toque en cada registro.
+ */
+export function cuentaMasUsada(
+  transacciones: readonly Transaccion[],
+  ahoraMs: number = Date.now(),
+): UUID | null {
+  const hoyStr = hoy(ahoraMs)
+  const puntajes = new Map<UUID, number>()
+
+  for (const t of transacciones) {
+    if (!viva(t)) continue
+    // Las transferencias no dicen nada sobre dónde se gasta.
+    if (t.tipo === 'TRANSFERENCIA') continue
+
+    const dias = Math.max(0, diasEntre(t.fecha, hoyStr))
+    if (dias > VENTANA_DIAS) continue
+
+    const peso = Math.pow(0.5, dias / VIDA_MEDIA_DIAS)
+    puntajes.set(t.id_cuenta, (puntajes.get(t.id_cuenta) ?? 0) + peso)
+  }
+
+  let mejor: UUID | null = null
+  let mejorPuntaje = 0
+  for (const [id, p] of puntajes) {
+    if (p > mejorPuntaje) {
+      mejor = id
+      mejorPuntaje = p
+    }
+  }
+  return mejor
+}
+
+/**
  * Montos sugeridos: los que más se repiten en los últimos 90 días.
  *
  * Sirve al objetivo de los dos toques. Si el pasaje del bus siempre

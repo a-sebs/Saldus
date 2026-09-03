@@ -1,0 +1,8 @@
+# La app es una SPA: cualquier ruta profunda (por ejemplo el atajo
+# /registrar del manifest, abierto desde la pantalla de inicio) tiene que
+# servir el index. Sin esto, el primer acceso a una URL que no sea "/"
+# devuelve 404 en cualquier hosting estático.
+#
+# Lo entienden Netlify, Render Static Sites y Cloudflare Pages. En Vercel
+# el equivalente es vercel.json; en Nginx, try_files.
+/*  /index.html  200

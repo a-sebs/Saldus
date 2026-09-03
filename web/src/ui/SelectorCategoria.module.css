@@ -1,0 +1,31 @@
+.lista {
+  display: block;
+}
+
+.fila {
+  display: block;
+  width: 100%;
+  min-height: var(--tactil-min);
+  padding: var(--esp-3) var(--esp-2);
+  text-align: left;
+  font-size: var(--texto-cuerpo);
+  color: var(--tinta);
+  border-bottom: 1px solid var(--regla);
+  border-radius: var(--radio-0);
+}
+
+.fila:active {
+  background: var(--superficie);
+}
+
+/* La indentación es la que dice que hay jerarquía: sin iconos de árbol
+   ni líneas de conexión, que a este tamaño solo estorban. */
+.hija {
+  padding-left: var(--esp-5);
+  color: var(--tinta-suave);
+}
+
+.seleccionada {
+  color: var(--acento);
+  font-weight: var(--peso-fuerte);
+}

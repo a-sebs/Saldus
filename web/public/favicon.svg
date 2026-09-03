@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Saldus">
+  <!--
+    El mismo motivo que los íconos PNG: tres entradas con su cifra
+    alineada a la derecha, la raya de cierre y el total. El color se
+    invierte con el esquema del sistema, para que no quede un cuadrado
+    oscuro en una barra de pestañas clara ni al revés.
+  -->
+  <style>
+    .fondo { fill: #1f4b6b; }
+    .marca { fill: #f7f8f9; }
+    @media (prefers-color-scheme: dark) {
+      .fondo { fill: #7fb2d1; }
+      .marca { fill: #10161b; }
+    }
+  </style>
+
+  <rect class="fondo" width="100" height="100" rx="14" />
+
+  <g class="marca">
+    <rect x="20" y="22" width="25" height="5.5" />
+    <rect x="63" y="22" width="17" height="5.5" />
+
+    <rect x="20" y="36" width="32" height="5.5" />
+    <rect x="60" y="36" width="20" height="5.5" />
+
+    <rect x="20" y="50" width="21" height="5.5" />
+    <rect x="65" y="50" width="15" height="5.5" />
+
+    <rect x="20" y="62.5" width="60" height="2" />
+    <rect x="55" y="70" width="25" height="7.5" />
+  </g>
+</svg>

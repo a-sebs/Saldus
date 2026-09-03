@@ -1,0 +1,23 @@
+.invitacion {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--esp-3);
+}
+
+.texto {
+  font-size: var(--texto-menor);
+  color: var(--tinta);
+  max-width: 40ch;
+}
+
+.instrucciones {
+  font-size: var(--texto-menor);
+  color: var(--tinta-suave);
+  max-width: 40ch;
+}
+
+.instalada {
+  font-size: var(--texto-menor);
+  color: var(--tinta-suave);
+}

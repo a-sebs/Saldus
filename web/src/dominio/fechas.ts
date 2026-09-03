@@ -126,31 +126,50 @@ export function diasDelMes(fecha: FechaContable): number {
 
 const LOCAL = 'es-EC'
 
+/**
+ * Mayúscula solo en la primera letra.
+ *
+ * En español los meses y los días van en minúscula, que es lo que
+ * devuelve `Intl`. Pero al empezar una línea toca mayúscula inicial, y
+ * el `text-transform: capitalize` de CSS no sirve: capitaliza **cada**
+ * palabra y produce "Septiembre De 2026".
+ */
+function capitalizar(texto: string): string {
+  return texto.charAt(0).toLocaleUpperCase(LOCAL) + texto.slice(1)
+}
+
 function formatear(fecha: FechaContable, opciones: Intl.DateTimeFormatOptions) {
   return new Intl.DateTimeFormat(LOCAL, { ...opciones, timeZone: 'UTC' }).format(
     aDate(fecha),
   )
 }
 
-/** `'2026-09-02'` → `"mar 2 sep"`. Cabecera de grupo de la lista. */
+/** `'2026-09-02'` → `"Mar 2 sep"`. Cabecera de grupo de la lista. */
 export function fechaCorta(fecha: FechaContable): string {
-  return formatear(fecha, { weekday: 'short', day: 'numeric', month: 'short' })
-    .replace(/\./g, '')
+  return capitalizar(
+    formatear(fecha, {
+      weekday: 'short',
+      day: 'numeric',
+      month: 'short',
+    }).replace(/\./g, ''),
+  )
 }
 
-/** `'2026-09-02'` → `"martes, 2 de septiembre"`. */
+/** `'2026-09-02'` → `"Martes, 2 de septiembre"`. */
 export function fechaLarga(fecha: FechaContable): string {
-  return formatear(fecha, { weekday: 'long', day: 'numeric', month: 'long' })
+  return capitalizar(
+    formatear(fecha, { weekday: 'long', day: 'numeric', month: 'long' }),
+  )
 }
 
-/** `'2026-09-02'` → `"septiembre 2026"`. Selector de mes. */
+/** `'2026-09-02'` → `"Septiembre de 2026"`. Selector de mes. */
 export function nombreMes(fecha: FechaContable): string {
-  return formatear(fecha, { month: 'long', year: 'numeric' })
+  return capitalizar(formatear(fecha, { month: 'long', year: 'numeric' }))
 }
 
-/** `'2026-09-02'` → `"septiembre"`. Cuando el año ya está en contexto. */
+/** `'2026-09-02'` → `"Septiembre"`. Cuando el año ya está en contexto. */
 export function nombreMesCorto(fecha: FechaContable): string {
-  return formatear(fecha, { month: 'long' })
+  return capitalizar(formatear(fecha, { month: 'long' }))
 }
 
 /**

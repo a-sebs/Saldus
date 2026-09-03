@@ -1,0 +1,24 @@
+.indicador {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--esp-2);
+  font-size: var(--texto-menor);
+  color: var(--tinta-suave);
+  line-height: var(--interlinea-apretada);
+}
+
+/* El único sitio de la app con radio completo: un contador redondo se
+   lee como cantidad y no como botón. */
+.contador {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding-inline: var(--esp-1);
+  border-radius: var(--radio-lleno);
+  background: var(--superficie);
+  color: var(--tinta);
+  font-size: var(--texto-micro);
+  font-variant-numeric: tabular-nums;
+}

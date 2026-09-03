@@ -1,0 +1,52 @@
+.pantalla {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: calc(env(safe-area-inset-top, 0px) + var(--esp-6)) var(--esp-4)
+    calc(env(safe-area-inset-bottom, 0px) + var(--esp-6));
+}
+
+.contenido {
+  width: 100%;
+  max-width: 420px;
+}
+
+.titulo {
+  font-size: var(--texto-cifra);
+  font-weight: var(--peso-fuerte);
+  line-height: var(--interlinea-apretada);
+  letter-spacing: -0.02em;
+  margin-bottom: var(--esp-3);
+}
+
+.tituloAlta {
+  font-size: var(--texto-titulo);
+  font-weight: var(--peso-fuerte);
+  margin-bottom: var(--esp-2);
+}
+
+.entrada {
+  font-size: var(--texto-cuerpo);
+  color: var(--tinta-suave);
+  max-width: 32ch;
+  margin-bottom: var(--esp-6);
+}
+
+.campo {
+  margin-bottom: var(--esp-4);
+}
+
+.acciones {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2);
+  margin-top: var(--esp-5);
+}
+
+.nota {
+  margin-top: var(--esp-5);
+  font-size: var(--texto-menor);
+  color: var(--tinta-suave);
+  max-width: 36ch;
+}

@@ -1,0 +1,43 @@
+.fila {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-2);
+}
+
+.chip {
+  /* El alto visible es menor que 44px, así que el área táctil se
+     completa con el padding vertical: el dedo no falla. */
+  min-height: var(--tactil-min);
+  padding: var(--esp-2) var(--esp-3);
+
+  font-size: var(--texto-menor);
+  color: var(--tinta);
+  background: var(--superficie);
+  border: 1px solid transparent;
+  border-radius: var(--radio-1);
+
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  transition: background-color var(--transicion), border-color var(--transicion);
+}
+
+.chip:active {
+  background: var(--regla);
+}
+
+/* Uno de los cuatro usos permitidos del acento: la opción elegida. */
+.seleccionado {
+  background: var(--acento-tenue);
+  border-color: var(--acento);
+  color: var(--tinta);
+  font-weight: var(--peso-medio);
+}
+
+.secundario {
+  background: none;
+  border-color: var(--regla);
+  color: var(--tinta-suave);
+}

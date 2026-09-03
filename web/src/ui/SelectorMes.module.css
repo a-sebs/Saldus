@@ -1,0 +1,31 @@
+.selector {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-1);
+}
+
+.paso {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--tactil-min);
+  height: var(--tactil-min);
+  color: var(--tinta);
+  border-radius: var(--radio-1);
+}
+
+.paso:active:not(:disabled) {
+  background: var(--superficie);
+}
+
+.paso:disabled {
+  color: var(--tinta-apagada);
+  cursor: default;
+}
+
+.nombre {
+  min-width: 11ch;
+  text-align: center;
+  font-size: var(--texto-menor);
+  color: var(--tinta-suave);
+}

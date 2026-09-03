@@ -1,0 +1,88 @@
+.fondo {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: rgba(19, 26, 33, 0.4);
+  animation: aparecer var(--transicion) both;
+}
+
+.panel {
+  width: 100%;
+  max-width: var(--ancho-max);
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+
+  background: var(--fondo);
+  /* El radio grande y la sombra son exclusivos de la hoja: es lo único
+     que está de verdad por encima del papel. */
+  border-radius: var(--radio-3) var(--radio-3) 0 0;
+  box-shadow: var(--sombra-hoja);
+
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  animation: subir var(--transicion-hoja) both;
+}
+
+.asa {
+  width: 36px;
+  height: 4px;
+  margin: var(--esp-2) auto 0;
+  border-radius: var(--radio-lleno);
+  background: var(--regla-fuerte);
+}
+
+.encabezado {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-2);
+  padding: var(--esp-3) var(--esp-4) var(--esp-2);
+}
+
+.titulo {
+  flex: 1;
+  font-size: var(--texto-cuerpo);
+  font-weight: var(--peso-fuerte);
+}
+
+.cerrar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--tactil-min);
+  height: var(--tactil-min);
+  margin-right: calc(var(--esp-3) * -1);
+  color: var(--tinta-suave);
+  border-radius: var(--radio-1);
+}
+
+.cerrar:active {
+  background: var(--superficie);
+}
+
+.cuerpo {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0 var(--esp-4) var(--esp-5);
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes subir {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fondo,
+  .panel {
+    animation: none;
+  }
+}
