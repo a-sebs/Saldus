@@ -1,0 +1,16 @@
+# Normaliza los finales de línea: el repositorio guarda LF siempre.
+# Sin esto, trabajar en Windows mete CRLF y cada diff aparece como
+# "archivo entero modificado".
+* text=auto eol=lf
+
+# Binarios: que git no intente normalizarlos ni mostrarlos como texto.
+*.png binary
+*.jpg binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.jar binary
+
+# Los .cmd/.bat de Windows necesitan CRLF de verdad.
+*.cmd text eol=crlf
+*.bat text eol=crlf

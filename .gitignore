@@ -1,0 +1,54 @@
+# ---------------------------------------------------------------------
+# Documentos de diseño
+# Viven en la rama `docs`, no en las ramas de código. Se ignoran con
+# ruta absoluta (barra inicial) para que solo aplique a la raíz: en la
+# Fase 2 el esquema se versiona en api/src/main/resources/db/migration/.
+# ---------------------------------------------------------------------
+/CLAUDE.md
+/PROMPTS-interfaz.md
+/V1__esquema_inicial.sql
+/plan.md
+
+# Bitácora de sesión — notas personales, no forman parte del producto
+/INFORME-SESION.md
+
+# ---------------------------------------------------------------------
+# Node / Vite
+# ---------------------------------------------------------------------
+node_modules/
+dist/
+dist-ssr/
+*.local
+.vite/
+coverage/
+
+# Artefactos que genera vite-plugin-pwa
+web/dev-dist/
+web/public/sw.js
+web/public/workbox-*.js
+
+# ---------------------------------------------------------------------
+# Entorno y secretos
+# ---------------------------------------------------------------------
+.env
+.env.*
+!.env.example
+
+# ---------------------------------------------------------------------
+# Java / Maven (Fase 2)
+# ---------------------------------------------------------------------
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# ---------------------------------------------------------------------
+# Sistema operativo y editores
+# ---------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+*.iml
+.vscode/*
+!.vscode/extensions.json
+*.log
+npm-debug.log*
