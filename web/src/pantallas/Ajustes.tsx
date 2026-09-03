@@ -15,6 +15,9 @@ import { useAviso } from '../estado/avisos.tsx'
 import { useDatos } from '../estado/datos.ts'
 import { useSesion } from '../estado/sesion.tsx'
 import { pedirPersistencia } from '../datos/db.ts'
+import { aCSV, nombreArchivo } from '../dominio/exportar.ts'
+import { hoy } from '../dominio/fechas.ts'
+import { entregarArchivo } from '../ui/descargar.ts'
 
 import { Cabecera } from '../ui/Cabecera.tsx'
 import { InvitacionInstalar } from '../ui/InvitacionInstalar.tsx'
@@ -49,6 +52,31 @@ export function Ajustes() {
       vigente = false
     }
   }, [])
+
+  async function exportar() {
+    if (datos.transacciones.length === 0) {
+      mostrar('No hay movimientos que exportar todavía.')
+      return
+    }
+    // El CSV se arma en memoria desde la réplica local: como todo lo
+    // demás en esta app, no toca la red.
+    const csv = aCSV({
+      transacciones: datos.transacciones,
+      cuentas: datos.cuentas,
+      categorias: datos.categorias,
+      etiquetas: datos.etiquetas,
+      enlacesEtiqueta: datos.enlacesEtiqueta,
+    })
+    const resultado = await entregarArchivo(
+      nombreArchivo(hoy()),
+      csv,
+      'text/csv;charset=utf-8',
+    )
+    if (resultado === 'cancelado') return
+    mostrar(
+      `${datos.transacciones.length} movimientos exportados. Guárdalo fuera del teléfono.`,
+    )
+  }
 
   return (
     <>
@@ -97,6 +125,18 @@ export function Ajustes() {
               <span>Importar desde CSV</span>
             </button>
           </li>
+          <li>
+            <button
+              type="button"
+              className={estilos.enlace}
+              onClick={exportar}
+            >
+              <span>Exportar a CSV</span>
+              <span className={estilos.contador}>
+                {datos.transacciones.length}
+              </span>
+            </button>
+          </li>
         </ul>
       </section>
 
@@ -106,7 +146,7 @@ export function Ajustes() {
         <p className={estilos.dato}>
           {HAY_BACKEND
             ? 'Se guardan en este dispositivo y se sincronizan con el servidor en segundo plano.'
-            : 'Se guardan solo en este dispositivo. Todavía no hay servidor con el que sincronizar, así que si borras los datos del navegador se van.'}
+            : 'Se guardan solo en este dispositivo. Todavía no hay servidor con el que sincronizar, así que si borras los datos del navegador se van. Exporta a CSV de vez en cuando para tener una copia fuera del teléfono.'}
         </p>
         <p className={estilos.dato}>
           {datos.transacciones.length}{' '}
