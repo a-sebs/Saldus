@@ -1,0 +1,71 @@
+# Despliegue del frontend en Render.
+#
+# Render no recibe los eventos de push de este repositorio: su GitHub App
+# nunca llegó a instalarse sobre `a-sebs/Saldus` —solo está autorizada,
+# que es otra cosa—, así que su "Auto-Deploy: On Commit" queda guardado y
+# no se dispara jamás. En vez de seguir peleando con esa integración,
+# aquí el aviso lo damos nosotros llamando al Deploy Hook.
+#
+# De paso queda mejor que el auto-deploy de Render: primero se comprueba
+# que el proyecto compila y que las pruebas pasan, y solo entonces se
+# despliega. Render, por su cuenta, publicaria igual una rama rota.
+#
+# Requisito: el secreto RENDER_DEPLOY_HOOK con la URL que aparece en
+# Render → saldus → Settings → Deploy → Deploy Hook.
+
+name: Desplegar
+
+on:
+  push:
+    branches: [develop]
+    # Mismo criterio que el rootDir de Render: cambiar solo documentacion
+    # no justifica un despliegue.
+    paths:
+      - 'web/**'
+      - 'render.yaml'
+      - '.github/workflows/desplegar.yml'
+  # Para poder lanzarlo a mano desde la pestaña Actions.
+  workflow_dispatch:
+
+jobs:
+  verificar-y-desplegar:
+    runs-on: ubuntu-latest
+    # A nivel de job y no de paso: el `env` de un paso todavia no existe
+    # cuando se evalua el `if` de ese mismo paso.
+    env:
+      HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
+    defaults:
+      run:
+        working-directory: web
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Instalar
+        run: npm ci
+
+      - name: Comprobar tipos
+        run: npm run typecheck
+
+      - name: Pruebas
+        run: npm test
+
+      - name: Compilar
+        run: npm run build
+
+      # Sin `if`, un push de alguien sin acceso al secreto fallaria aqui
+      # con un error confuso en vez de simplemente no desplegar.
+      - name: Avisar a Render
+        if: ${{ env.HOOK != '' }}
+        run: curl -fsS -X POST "$HOOK" -o /dev/null
+
+      - name: Avisar si falta el secreto
+        if: ${{ env.HOOK == '' }}
+        run: |
+          echo "::warning::Falta el secreto RENDER_DEPLOY_HOOK; no se desplego nada."
