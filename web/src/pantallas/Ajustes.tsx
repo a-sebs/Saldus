@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { HAY_BACKEND, NOMBRE_APP } from '../config.ts'
+import { useAviso } from '../estado/avisos.tsx'
 import { useDatos } from '../estado/datos.ts'
 import { useSesion } from '../estado/sesion.tsx'
 import { pedirPersistencia } from '../datos/db.ts'
@@ -28,6 +29,7 @@ export function Ajustes() {
   const { sesion, salir } = useSesion()
   const { datos } = useDatos()
   const navegar = useNavigate()
+  const { mostrar } = useAviso()
 
   const [almacenamiento, setAlmacenamiento] = useState<Almacenamiento | null>(null)
   const [confirmandoSalida, setConfirmandoSalida] = useState(false)
@@ -119,14 +121,28 @@ export function Ajustes() {
           <>
             <p className={estilos.dato}>
               El navegador todavía puede borrar estos datos si se queda sin
-              espacio.
+              espacio. Puedes pedirle que los marque como protegidos: no abre
+              ningún diálogo, lo concede o lo niega él solo según cuánto uses
+              la app.
             </p>
             <button
               type="button"
               className="boton boton--secundario"
               onClick={async () => {
-                const ok = await pedirPersistencia()
-                setAlmacenamiento((a) => (a ? { ...a, persistente: ok } : a))
+                await pedirPersistencia()
+                // El valor que manda es persisted(), no lo que devolvió
+                // persist(): así lo que se muestra es el estado real del
+                // navegador y no una suposición nuestra.
+                const persistente =
+                  (await navigator.storage?.persisted?.()) ?? false
+                setAlmacenamiento((a) => (a ? { ...a, persistente } : a))
+                // Sin este aviso, que lo nieguen es indistinguible de que
+                // el botón esté roto: se repinta lo mismo y no pasa nada.
+                mostrar(
+                  persistente
+                    ? 'Datos protegidos.'
+                    : 'El navegador no lo concedió todavía. Suele concederlo tras unos días de uso.',
+                )
               }}
             >
               Pedir almacenamiento protegido
