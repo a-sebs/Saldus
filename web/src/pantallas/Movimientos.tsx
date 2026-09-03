@@ -111,22 +111,18 @@ export function Movimientos() {
         titulo="Movimientos"
         derecha={<IndicadorSync pendientes={datos.pendientes.size} />}
       >
+        {/*
+          Aquí había también el balance del mes. Se quitó: esta pantalla
+          responde una sola pregunta —cuánto llevo gastado— y una segunda
+          cifra al lado obligaba a decidir cuál de las dos mirar. El
+          balance responde otra pregunta distinta y está mejor contado en
+          Resumen, que ya lo desglosa en entró, salió y queda.
+        */}
         <div className={estilos.resumenMes}>
           <SelectorMes mes={mes} onCambiar={setMes} />
-          <div className={estilos.totales}>
-            <div className={estilos.total}>
-              <span className={estilos.etiquetaTotal}>Gastado</span>
-              <Monto centavos={totales.gastos} tamano="titulo" conMoneda />
-            </div>
-            <div className={estilos.total}>
-              <span className={estilos.etiquetaTotal}>Balance</span>
-              <Monto
-                centavos={totales.balance}
-                tamano="menor"
-                signo="siempre"
-                enfasis={totales.balance >= 0 ? 'fuerte' : 'normal'}
-              />
-            </div>
+          <div className={estilos.total}>
+            <span className={estilos.etiquetaTotal}>Gastado</span>
+            <Monto centavos={totales.gastos} tamano="titulo" conMoneda />
           </div>
         </div>
       </Cabecera>

@@ -68,8 +68,12 @@ export function FilaMovimiento({
       onClick={onSeleccionar}
       aria-label={`${concepto}, ${detalleDerecha}`}
     >
+      {/* El texto va en su propio span y no suelto dentro del flex: los
+          puntos suspensivos de `text-overflow` no se aplican a un nodo
+          de texto que el flex convierte en elemento anónimo, y una
+          descripción larga se cortaría a hachazo limpio. */}
       <span className={estilos.concepto}>
-        {concepto}
+        <span className={estilos.textoConcepto}>{concepto}</span>
         {HAY_BACKEND && pendiente && (
           <span className={estilos.pendiente} title="Todavía sin enviar" />
         )}

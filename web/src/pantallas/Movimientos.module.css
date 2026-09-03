@@ -4,21 +4,13 @@
   gap: var(--esp-3);
 }
 
-.totales {
+/* Etiqueta a la izquierda y cifra a la derecha, en la columna de dinero
+   que comparte con las filas de abajo. */
+.total {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   gap: var(--esp-4);
-}
-
-.total {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.total:last-child {
-  align-items: flex-end;
 }
 
 .etiquetaTotal {

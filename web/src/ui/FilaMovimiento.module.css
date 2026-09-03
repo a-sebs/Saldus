@@ -33,8 +33,12 @@
   min-width: 0;
   font-size: var(--texto-cuerpo);
   color: var(--tinta);
-  /* Un nombre largo se corta con puntos suspensivos; nunca desborda ni
-     empuja la columna de dinero. */
+}
+
+/* Un nombre largo se corta con puntos suspensivos; nunca desborda ni
+   empuja la columna de dinero. */
+.textoConcepto {
+  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
