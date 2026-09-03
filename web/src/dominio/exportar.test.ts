@@ -55,7 +55,7 @@ describe('aCSV', () => {
         f.transaccion({ id_cuenta: 'cta-banco', id_categoria: 'cat-comida' }),
       ],
     })
-    expect(lineas(csv)[1]).toBe('2026-09-02,GASTO,4.50,Comida,Pichincha,,,')
+    expect(lineas(csv)[1]).toBe('02/09/2026,GASTO,4.50,Comida,Pichincha,,,')
   })
 
   it('omite los movimientos borrados: el borrado es suave, el respaldo no los lleva', () => {
@@ -86,7 +86,7 @@ describe('aCSV', () => {
       ],
     })
     expect(lineas(csv)[1]).toBe(
-      '2026-09-02,TRANSFERENCIA,100.00,,Efectivo,Pichincha,,',
+      '02/09/2026,TRANSFERENCIA,100.00,,Efectivo,Pichincha,,',
     )
   })
 
@@ -126,11 +126,46 @@ describe('aCSV', () => {
     const fechas = lineas(csv)
       .slice(1)
       .map((l) => l.split(',')[0])
-    expect(fechas).toEqual(['2026-09-01', '2026-09-03', '2026-09-05'])
+    expect(fechas).toEqual(['01/09/2026', '03/09/2026', '05/09/2026'])
 
     // Los mismos datos en otro orden de entrada dan el mismo archivo.
     const otro = aCSV({ ...base, transacciones: transacciones.slice().reverse() })
     expect(otro).toBe(csv)
+  })
+})
+
+describe('formato de fecha', () => {
+  it('escribe dd/mm/aaaa, no el ISO que Excel reinterpreta', () => {
+    const csv = aCSV({
+      ...base,
+      transacciones: [
+        f.transaccion({ fecha: '2026-09-02', id_categoria: 'cat-comida' }),
+      ],
+    })
+    expect(lineas(csv)[1]?.startsWith('02/09/2026,')).toBe(true)
+  })
+
+  it('un dia menor que 13 vuelve al mes correcto, no al dia', () => {
+    // 04/03/2026 es 4 de marzo. Si algo lo leyera como mm/dd seria el 3
+    // de abril: el movimiento acabaria en otro mes sin avisar.
+    const csv = aCSV({
+      ...base,
+      transacciones: [
+        f.transaccion({ fecha: '2026-03-04', id_categoria: 'cat-comida' }),
+      ],
+    })
+    expect(lineas(csv)[1]?.startsWith('04/03/2026,')).toBe(true)
+
+    const filas = parsearCSV(csv)
+    const { validas } = leerFilas(filas, {
+      mapeo: sugerirMapeo(filas[0] as string[]),
+      conCabecera: true,
+      cuentas: base.cuentas,
+      categorias: base.categorias,
+      cuentaPorDefecto: 'cta-efectivo',
+      existentes: [],
+    })
+    expect(validas[0]?.fecha).toBe('2026-03-04')
   })
 })
 

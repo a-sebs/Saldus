@@ -83,7 +83,7 @@ export function aCSV(op: OpcionesExportacion): string {
         a.id.localeCompare(b.id),
     )
     .map((t) => [
-      t.fecha,
+      fechaCSV(t.fecha),
       t.tipo,
       centavosADecimalSQL(t.monto),
       t.id_categoria ? (nombreCategoria.get(t.id_categoria) ?? '') : '',
@@ -101,6 +101,24 @@ export function aCSV(op: OpcionesExportacion): string {
   // convierte las tildes en basura. `parsearCSV` lo descarta al releer.
   // CRLF es lo que dicta RFC 4180; el lector ignora el \r.
   return '\uFEFF' + lineas.join('\r\n') + '\r\n'
+}
+
+/**
+ * Fecha en dd/mm/aaaa.
+ *
+ * El archivo llevaba ISO, que es inequívoco, pero Excel lo reinterpreta
+ * según el idioma del sistema y acaba enseñando mes/día/año, que aquí no
+ * se lee así. Se escribe ya en el orden en que se espera leerlo.
+ *
+ * No rompe la vuelta: `normalizarFecha` prueba dd/mm/aaaa y **se niega a
+ * adivinar mm/dd/aaaa** a propósito, porque 03/04 sería ambiguo y meter
+ * un movimiento en el mes equivocado sin avisar es peor que rechazar la
+ * fila. El orden de las filas se sigue calculando sobre la fecha ISO,
+ * antes de formatear.
+ */
+function fechaCSV(fecha: FechaContable): string {
+  const [anio, mes, dia] = fecha.split('-')
+  return `${dia}/${mes}/${anio}`
 }
 
 /**
