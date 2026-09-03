@@ -23,6 +23,11 @@ services:
     # repositorio (main) y publicaria un sitio vacio.
     branch: develop
 
+    # Redesplegar en cada push a esa rama. Explicito porque un sitio
+    # creado desde el enlace publico de despliegue puede quedarse sin
+    # el webhook de GitHub, y entonces no se entera de los commits.
+    autoDeploy: true
+
     # El sitio vive en web/, no en la raíz del repo.
     rootDir: web
     buildCommand: npm ci && npm run build
