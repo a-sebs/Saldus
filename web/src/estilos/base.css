@@ -1,0 +1,243 @@
+/* =====================================================================
+   Base — reajuste del navegador y las pocas primitivas que de verdad
+   comparten todas las pantallas. Lo específico de cada pantalla vive en
+   su propio .module.css.
+   ===================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  /* Sin ajuste automático de tamaño de texto al girar el teléfono. */
+  -webkit-text-size-adjust: 100%;
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  font-family: var(--familia);
+  font-size: var(--texto-cuerpo);
+  line-height: var(--interlinea);
+  color: var(--tinta);
+  background: var(--fondo);
+  -webkit-font-smoothing: antialiased;
+
+  /* El azul de resalte al tocar delata que esto es una web. */
+  -webkit-tap-highlight-color: transparent;
+
+  /* Sin rebote de pull-to-refresh: en esta app no hay nada que refrescar
+     tirando, y el gesto choca con el scroll de las listas. */
+  overscroll-behavior-y: contain;
+}
+
+#raiz {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+}
+
+button {
+  cursor: pointer;
+  /* Sin selección accidental de texto al mantener pulsado. */
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+a {
+  color: var(--acento);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+/* ---------------------------------------------------------------------
+   Foco visible. Solo con teclado: en táctil estorbaría.
+   --------------------------------------------------------------------- */
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--acento);
+  outline-offset: 2px;
+  border-radius: var(--radio-1);
+}
+
+/* ---------------------------------------------------------------------
+   Cifras. La regla más importante de la app: si en una lista los montos
+   no alinean verticalmente, es un defecto.
+   --------------------------------------------------------------------- */
+.cifra {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+  letter-spacing: 0;
+}
+
+input[inputmode='decimal'],
+input[inputmode='numeric'] {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+
+/* ---------------------------------------------------------------------
+   Contenedor de pantalla. Por encima de 560px la app no se convierte en
+   un panel de escritorio: solo se ensancha el margen.
+   --------------------------------------------------------------------- */
+.contenedor {
+  width: 100%;
+  max-width: var(--ancho-max);
+  margin-inline: auto;
+  padding-inline: var(--esp-4);
+}
+
+/* Texto solo para lectores de pantalla. */
+.solo-lectores {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------------------------------------------------------------------
+   Botones. Tres variantes y ninguna más.
+   --------------------------------------------------------------------- */
+.boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--esp-2);
+  min-height: var(--tactil-min);
+  padding: var(--esp-3) var(--esp-4);
+  border-radius: var(--radio-2);
+  font-size: var(--texto-cuerpo);
+  font-weight: var(--peso-medio);
+  transition: background-color var(--transicion), opacity var(--transicion);
+}
+
+.boton:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.boton--primario {
+  background: var(--acento);
+  color: var(--sobre-acento);
+  width: 100%;
+}
+
+.boton--primario:active:not(:disabled) {
+  background: var(--acento-hundido);
+}
+
+.boton--secundario {
+  background: var(--superficie);
+  color: var(--tinta);
+}
+
+.boton--secundario:active:not(:disabled) {
+  background: var(--regla);
+}
+
+.boton--texto {
+  background: none;
+  color: var(--acento);
+  padding-inline: var(--esp-2);
+  min-height: var(--tactil-min);
+}
+
+.boton--peligro {
+  background: none;
+  color: var(--peligro);
+}
+
+.boton--peligro:active:not(:disabled) {
+  background: var(--peligro-tenue);
+}
+
+/* ---------------------------------------------------------------------
+   Campos de formulario. 16px mínimo o iOS hace zoom al enfocar.
+   --------------------------------------------------------------------- */
+.campo {
+  display: block;
+  width: 100%;
+  min-height: var(--tactil-min);
+  padding: var(--esp-3);
+  font-size: var(--texto-cuerpo);
+  color: var(--tinta);
+  background: var(--superficie);
+  border: 1px solid transparent;
+  border-radius: var(--radio-1);
+  transition: border-color var(--transicion);
+}
+
+.campo::placeholder {
+  color: var(--tinta-apagada);
+}
+
+.campo:focus-visible {
+  border-color: var(--acento);
+  outline-offset: 0;
+}
+
+.campo--invalido {
+  border-color: var(--peligro);
+}
+
+.etiqueta-campo {
+  display: block;
+  font-size: var(--texto-menor);
+  color: var(--tinta-suave);
+  margin-bottom: var(--esp-2);
+}
+
+/* ---------------------------------------------------------------------
+   El rayado del libro. Una regla de un píxel, con el tinte de la escala
+   neutra: a este grosor no se percibe el tono, pero hace que la línea
+   parezca impresa en el papel y no dibujada encima.
+   --------------------------------------------------------------------- */
+.regla {
+  border: 0;
+  border-top: 1px solid var(--regla);
+}
+
+/* ---------------------------------------------------------------------
+   Mensajes de error de formulario.
+   --------------------------------------------------------------------- */
+.error-campo {
+  display: block;
+  margin-top: var(--esp-2);
+  font-size: var(--texto-menor);
+  color: var(--peligro);
+}

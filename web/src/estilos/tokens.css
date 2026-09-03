@@ -1,0 +1,146 @@
+/* =====================================================================
+   Tokens — la única fuente de valores del sistema de diseño.
+   El contrato está en DESIGN.md (raíz del repo).
+
+   Regla dura: ninguna pantalla escribe un hex, un px de espaciado ni un
+   tamaño de fuente a mano. Si algo no se puede construir con estos
+   tokens, se discute el token.
+   ===================================================================== */
+
+:root {
+  /* -----------------------------------------------------------------
+     Escala neutra — 6 pasos, tono 210°, saturación muy baja.
+     Papel de oficina bajo luz fría. Ni gris puro ni crema.
+     ----------------------------------------------------------------- */
+  --neutro-0: #f7f8f9; /* papel: fondo de la app                       */
+  --neutro-1: #edeff2; /* superficie hundida: campos, cabecera de día  */
+  --neutro-2: #dde1e6; /* el rayado: reglas, bordes                    */
+  --neutro-3: #aeb6bf; /* deshabilitado, marcas de posición            */
+  --neutro-4: #5b6672; /* texto secundario                             */
+  --neutro-5: #1b2229; /* tinta: texto principal y cifras              */
+
+  /* -----------------------------------------------------------------
+     El acento: azul Prusia. Tinta de pluma, no azul de framework.
+     Solo en: acción primaria, opción seleccionada, foco, serie de
+     gráfico. Un quinto uso significa que sobra.
+     ----------------------------------------------------------------- */
+  --acento: #1f4b6b;
+  --acento-hundido: #16374f; /* el mismo, pulsado                      */
+  --acento-tenue: #dbe7ef; /* fondo de la opción seleccionada          */
+  --sobre-acento: #ffffff; /* texto encima del acento                  */
+
+  /* -----------------------------------------------------------------
+     Único color semántico extra: borrar. No se usa para "gasto", ni
+     para validaciones menores, ni para adornar.
+     ----------------------------------------------------------------- */
+  --peligro: #8c2f2a;
+  --peligro-tenue: #f6e4e2;
+
+  /* -----------------------------------------------------------------
+     Roles. Los componentes usan estos, no los pasos crudos: cambiar el
+     papel de la app debe ser una línea, no una búsqueda global.
+     ----------------------------------------------------------------- */
+  --fondo: var(--neutro-0);
+  --superficie: var(--neutro-1);
+  --regla: var(--neutro-2);
+  --regla-fuerte: var(--neutro-3);
+  --tinta: var(--neutro-5);
+  --tinta-suave: var(--neutro-4);
+  --tinta-apagada: var(--neutro-3);
+
+  /* -----------------------------------------------------------------
+     Tipografía — una sola familia (la del sistema) y 5 tamaños.
+     Sin webfont: esta app tiene que abrir en el subterráneo.
+     ----------------------------------------------------------------- */
+  --familia: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+
+  --texto-cifra: 2.5rem; /* 40px — solo el monto de captura            */
+  --texto-titulo: 1.375rem; /* 22px                                    */
+  --texto-cuerpo: 1rem; /* 16px — mínimo de todo input (zoom de iOS)   */
+  --texto-menor: 0.875rem; /* 14px                                     */
+  --texto-micro: 0.75rem; /* 12px — nunca para decidir algo            */
+
+  --peso-normal: 400;
+  --peso-medio: 500;
+  --peso-fuerte: 600;
+
+  --interlinea-apretada: 1.15;
+  --interlinea: 1.45;
+
+  /* -----------------------------------------------------------------
+     Espaciado — base 4px. Nada fuera de esta escala.
+     ----------------------------------------------------------------- */
+  --esp-1: 4px;
+  --esp-2: 8px;
+  --esp-3: 12px;
+  --esp-4: 16px; /* margen lateral de pantalla                         */
+  --esp-5: 24px;
+  --esp-6: 32px;
+  --esp-7: 48px;
+
+  /* -----------------------------------------------------------------
+     Radio: jerarquía de elevación, no decoración uniforme.
+     ----------------------------------------------------------------- */
+  --radio-0: 0; /* filas y reglas: el papel no tiene esquinas          */
+  --radio-1: 3px; /* chips, campos                                     */
+  --radio-2: 6px; /* botones                                           */
+  --radio-3: 14px; /* hoja modal: lo único que flota de verdad         */
+  --radio-lleno: 999px; /* solo el contador de pendientes              */
+
+  /* -----------------------------------------------------------------
+     Sombra: dos, y solo para lo que está por encima del papel.
+     ----------------------------------------------------------------- */
+  --sombra-hoja: 0 -2px 24px rgba(19, 26, 33, 0.18);
+  --sombra-menu: 0 4px 16px rgba(19, 26, 33, 0.14);
+
+  /* -----------------------------------------------------------------
+     Medidas de la interfaz
+     ----------------------------------------------------------------- */
+  --tactil-min: 44px; /* objetivo táctil mínimo                        */
+  --ancho-max: 560px; /* más allá, la app se centra; no se vuelve panel */
+  --alto-nav: 56px;
+
+  /* -----------------------------------------------------------------
+     Movimiento: casi nada, y apagable.
+     ----------------------------------------------------------------- */
+  --transicion: 120ms ease;
+  --transicion-hoja: 200ms cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* =====================================================================
+   Modo oscuro — resuelto entero aquí. Ningún componente sabe en qué
+   modo está.
+
+   El papel oscuro es gris azulado, no negro puro: el negro puro sobre
+   OLED produce halos alrededor del texto claro y cansa de noche, que es
+   cuando uno cuadra las cuentas del día.
+   ===================================================================== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --neutro-0: #14181c;
+    --neutro-1: #1c2227;
+    --neutro-2: #2a3239;
+    --neutro-3: #5a656f;
+    --neutro-4: #99a3ad;
+    --neutro-5: #e8ecef;
+
+    --acento: #7fb2d1;
+    --acento-hundido: #a3c9de;
+    --acento-tenue: #22343f;
+    --sobre-acento: #10161b;
+
+    --peligro: #e0847e;
+    --peligro-tenue: #35211f;
+
+    --sombra-hoja: 0 -2px 24px rgba(0, 0, 0, 0.55);
+    --sombra-menu: 0 4px 16px rgba(0, 0, 0, 0.5);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --transicion: 0ms;
+    --transicion-hoja: 0ms;
+  }
+}
