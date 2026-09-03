@@ -24,7 +24,17 @@ const DESTINOS = [
   { ruta: '/ajustes', texto: 'Ajustes', Icono: IconoAjustes },
 ] as const
 
-const RUTAS_CON_ACCION: string[] = ['/', '/cuentas', '/resumen']
+/**
+ * La acción primaria vive solo en Movimientos.
+ *
+ * Estaba también en Cuentas y Resumen, pero ahí compite con aquello a lo
+ * que uno ha ido: en Resumen se está leyendo, no anotando. Movimientos
+ * es la ruta inicial y queda a un toque desde cualquier sección, así que
+ * "siempre alcanzable con el pulgar" se sigue cumpliendo. Y el camino
+ * corto de verdad para registrar es el atajo del ícono de inicio, que no
+ * pasa por esta barra.
+ */
+const RUTAS_CON_ACCION: string[] = ['/']
 
 export function Armazon({ children }: { children: ReactNode }) {
   const { pathname } = useLocation()
