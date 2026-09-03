@@ -1,20 +1,20 @@
 /**
  * Aviso de versión nueva.
  *
- * El service worker está en modo `prompt`, no `autoUpdate`: recargar la
- * app sola mientras alguien está a mitad de escribir un gasto es un
- * riesgo innecesario en una app donde el dispositivo es la fuente de
- * verdad. Se avisa y decide el usuario.
+ * El registro del service worker no vive aquí sino en
+ * `estado/actualizacion.tsx`, para que Ajustes pueda ofrecer el mismo
+ * botón sin provocar un segundo registro con su propio estado.
+ *
+ * Este aviso es oportunista: aparece si la versión nueva se detecta
+ * mientras la app está abierta. El camino fiable —preguntar cuando uno
+ * quiera— está en Ajustes.
  */
 
-import { useRegisterSW } from 'virtual:pwa-register/react'
+import { useActualizacion } from '../estado/actualizacion.tsx'
 import estilos from './AvisoVersion.module.css'
 
 export function AvisoVersion() {
-  const {
-    needRefresh: [hayVersionNueva, setHayVersionNueva],
-    updateServiceWorker,
-  } = useRegisterSW()
+  const { hayVersionNueva, actualizar, descartar } = useActualizacion()
 
   if (!hayVersionNueva) return null
 
@@ -24,15 +24,11 @@ export function AvisoVersion() {
       <button
         type="button"
         className={estilos.accion}
-        onClick={() => void updateServiceWorker(true)}
+        onClick={() => void actualizar()}
       >
         Actualizar
       </button>
-      <button
-        type="button"
-        className={estilos.descartar}
-        onClick={() => setHayVersionNueva(false)}
-      >
+      <button type="button" className={estilos.descartar} onClick={descartar}>
         Ahora no
       </button>
     </div>

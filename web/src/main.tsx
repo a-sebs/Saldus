@@ -6,6 +6,7 @@ import './estilos/tokens.css'
 import './estilos/base.css'
 
 import { App } from './App.tsx'
+import { ProveedorActualizacion } from './estado/actualizacion.tsx'
 import { ProveedorAvisos } from './estado/avisos.tsx'
 import { ProveedorSesion } from './estado/sesion.tsx'
 
@@ -15,11 +16,13 @@ if (!raiz) throw new Error('Falta el nodo #raiz en index.html')
 createRoot(raiz).render(
   <StrictMode>
     <BrowserRouter>
-      <ProveedorSesion>
-        <ProveedorAvisos>
-          <App />
-        </ProveedorAvisos>
-      </ProveedorSesion>
+      <ProveedorActualizacion>
+        <ProveedorSesion>
+          <ProveedorAvisos>
+            <App />
+          </ProveedorAvisos>
+        </ProveedorSesion>
+      </ProveedorActualizacion>
     </BrowserRouter>
   </StrictMode>,
 )

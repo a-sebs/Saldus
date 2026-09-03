@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { HAY_BACKEND, NOMBRE_APP } from '../config.ts'
 import { useAviso } from '../estado/avisos.tsx'
+import { useActualizacion } from '../estado/actualizacion.tsx'
 import { useDatos } from '../estado/datos.ts'
 import { useSesion } from '../estado/sesion.tsx'
 import { pedirPersistencia } from '../datos/db.ts'
@@ -33,6 +34,8 @@ export function Ajustes() {
   const { datos } = useDatos()
   const navegar = useNavigate()
   const { mostrar } = useAviso()
+  const { hayVersionNueva, estadoBusqueda, actualizar, buscar } =
+    useActualizacion()
 
   const [almacenamiento, setAlmacenamiento] = useState<Almacenamiento | null>(null)
   const [confirmandoSalida, setConfirmandoSalida] = useState(false)
@@ -197,8 +200,41 @@ export function Ajustes() {
       </section>
 
       <section className={estilos.seccion}>
-        <h2 className={estilos.subtitulo}>Instalar</h2>
+        <h2 className={estilos.subtitulo}>Instalar y actualizar</h2>
         <InvitacionInstalar siempre />
+
+        {hayVersionNueva ? (
+          <>
+            <p className={estilos.dato}>Hay una versión nueva lista.</p>
+            <button
+              type="button"
+              className="boton boton--secundario"
+              onClick={() => void actualizar()}
+            >
+              Actualizar ahora
+            </button>
+          </>
+        ) : (
+          <>
+            <p className={estilos.dato}>
+              {estadoBusqueda === 'al-dia'
+                ? 'Ya tienes la última versión.'
+                : estadoBusqueda === 'sin-soporte'
+                  ? 'Este navegador no gestiona actualizaciones en segundo plano. Recarga la página para traer la última versión.'
+                  : 'La app busca versiones nuevas cada vez que se abre. Si acabas de publicar una, puedes comprobarlo ahora.'}
+            </p>
+            <button
+              type="button"
+              className="boton boton--secundario"
+              onClick={() => void buscar()}
+              disabled={estadoBusqueda === 'buscando'}
+            >
+              {estadoBusqueda === 'buscando'
+                ? 'Buscando…'
+                : 'Buscar actualizaciones'}
+            </button>
+          </>
+        )}
       </section>
 
       {/* --- Salir --------------------------------------------------- */}
