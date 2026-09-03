@@ -100,6 +100,9 @@
   --tactil-min: 44px; /* objetivo táctil mínimo                        */
   --ancho-max: 560px; /* más allá, la app se centra; no se vuelve panel */
   --alto-nav: 56px;
+  /* Alto util de la barra de accion primaria. Lo fija el armazon segun
+     la ruta; sirve para que el aviso no se pinte encima del boton. */
+  --alto-barra-accion: 0px;
 
   /* -----------------------------------------------------------------
      Movimiento: casi nada, y apagable.

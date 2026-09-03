@@ -7,6 +7,7 @@
  * de gestos de iOS y sería intocable.
  */
 
+import { useEffect } from 'react'
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import {
   IconoAjustes,
@@ -40,6 +41,20 @@ export function Armazon({ children }: { children: ReactNode }) {
   const { pathname } = useLocation()
   const navegar = useNavigate()
   const conAccion = RUTAS_CON_ACCION.includes(pathname)
+
+  // El aviso se pinta fuera del armazon, en el proveedor, asi que la
+  // unica forma de que sepa si hay barra de accion debajo es una
+  // variable en la raiz. La ruta sigue decidiendose en un solo sitio.
+  useEffect(() => {
+    const raiz = document.documentElement
+    raiz.style.setProperty(
+      '--alto-barra-accion',
+      conAccion ? 'calc(var(--tactil-min) + var(--esp-3))' : '0px',
+    )
+    return () => {
+      raiz.style.removeProperty('--alto-barra-accion')
+    }
+  }, [conAccion])
 
   return (
     <div className={estilos.armazon}>

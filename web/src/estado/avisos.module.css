@@ -7,7 +7,13 @@
   position: fixed;
   left: var(--esp-4);
   right: var(--esp-4);
-  bottom: calc(var(--alto-nav) + var(--esp-3) + env(safe-area-inset-bottom, 0px));
+  /* Se suma el alto de la barra de accion: sin esto el aviso se pinta
+     justo encima del boton de registrar y lo tapa cinco segundos,
+     que es precisamente cuando uno quiere anotar el siguiente. */
+  bottom: calc(
+    var(--alto-nav) + var(--alto-barra-accion, 0px) + var(--esp-3) +
+      env(safe-area-inset-bottom, 0px)
+  );
   z-index: 40;
 
   display: flex;
